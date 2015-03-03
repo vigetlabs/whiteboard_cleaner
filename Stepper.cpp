@@ -9,8 +9,7 @@
 Stepper::Stepper(
   int dirPin,
   int stepPin,
-  int buttonPin,
-  bool invert)
+  int buttonPin)
 {
   _dirPin    = dirPin;
   _stepPin   = stepPin;
@@ -20,17 +19,9 @@ Stepper::Stepper(
   _position    = 0;
   _calibrating = false;
 
-  if (invert) {
-    _inward  = HIGH;
-    _outward = LOW;
-  } else {
-    _inward  = LOW;
-    _outward = HIGH;
-  }
-
-  analogWrite(_dirPin,    OUTPUT);
-  analogWrite(_stepPin,   OUTPUT);
-  analogWrite(_buttonPin, OUTPUT);
+  pinMode(_dirPin,    OUTPUT);
+  pinMode(_stepPin,   OUTPUT);
+  pinMode(_buttonPin, INPUT);
 }
 
 void Stepper::startCalibration() {

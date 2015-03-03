@@ -15,13 +15,12 @@ class Stepper
     Stepper(
       int dirPin,
       int stepPin,
-      int buttonPin,
-      bool invert);
+      int buttonPin);
 
-    void move(int newPosition);
     void startCalibration();
     bool isCalibrating();
     void calibrate();
+    void move(int newPosition);
   private:
     int _dirPin;
     int _stepPin;
@@ -29,8 +28,6 @@ class Stepper
 
     int  _buttonState;
     int  _position;
-    int  _inward;
-    int  _outward;
     bool _calibrating;
 
     void _movement(int steps);
