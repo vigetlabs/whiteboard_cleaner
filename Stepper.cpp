@@ -19,8 +19,8 @@ Stepper::Stepper(
   _position       = 0;
   _targetPosition = 0;
   _calibrating    = false;
-  _delta          = 0.001;
-  _positionStep   = 0.005;
+  _delta          = 0.005;
+  _positionStep   = 0.0075;
 
   pinMode(_dirPin,    OUTPUT);
   pinMode(_stepPin,   OUTPUT);
