@@ -32,7 +32,7 @@ class Stepper
     bool  _calibrating;
     float _position;
     float _targetPosition;
-    float _delta;
+    float _buffer;
     float _positionStep;
 
     void _moveTo(float newPosition);

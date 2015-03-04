@@ -19,7 +19,7 @@ Stepper::Stepper(
   _position       = 0;
   _targetPosition = 0;
   _calibrating    = false;
-  _delta          = 0.005;
+  _buffer          = 0.005;
   _positionStep   = 0.0075;
 
   pinMode(_dirPin,    OUTPUT);
@@ -42,8 +42,9 @@ void Stepper::calibrate() {
   _moveSteps(80);
 
   if (_buttonState == HIGH) {
-    _calibrating = false;
-    _position    = 0;
+    _calibrating    = false;
+    _position       = 0;
+    _targetPosition = 0;
   }
 }
 
@@ -52,9 +53,9 @@ void Stepper::setTarget(float newTarget) {
 }
 
 void Stepper::update() {
-  if (_targetPosition > (_position + _delta)) {
+  if (_targetPosition > (_position + _buffer)) {
     _moveTo(_position + _positionStep);
-  } else if (_targetPosition < (_position - _delta)) {
+  } else if (_targetPosition < (_position - _buffer)) {
     _moveTo(_position - _positionStep);
   }
 }

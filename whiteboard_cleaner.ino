@@ -12,6 +12,7 @@ void setup()
 {
   pinMode(ledPin, OUTPUT);
 
+  Spark.function("moveBoth", moveBoth);
   Spark.function("moveTo1", moveTo1);
   Spark.function("moveTo2", moveTo2);
   Spark.function("calibrate", calibrate);
@@ -24,15 +25,33 @@ void loop() {
   stepper2.update();
 }
 
+int moveBoth(String input) {
+  int loc1 = 0;
+  int loc2 = 0;
+  float arg1;
+  float arg2;
+
+  loc1 = input.indexOf(",");
+  arg1 = input.substring(0, loc1).toFloat();
+
+  loc2 = input.indexOf(",", loc1 + 1);
+  arg2 = input.substring(loc1 + 1, loc2).toFloat();
+
+  stepper1.setTarget(arg1);
+  stepper2.setTarget(arg2);
+
+  return arg1 + arg2;
+}
+
 int moveTo1(String value) {
-  float newPosition = _readInput(value);
+  float newPosition = value.toFloat();
   stepper1.setTarget(newPosition);
 
   return newPosition;
 }
 
 int moveTo2(String value) {
-  float newPosition = _readInput(value);
+  float newPosition = value.toFloat();
   stepper2.setTarget(newPosition);
 
   return newPosition;
@@ -46,13 +65,6 @@ int calibrate(String input) {
   }
 
   return 1;
-}
-
-float _readInput(String value) {
-  char * valueChar = new char[value.length() + 1];
-  strcpy(valueChar, value.c_str());
-
-  return atof(valueChar);
 }
 
 void calibrationCheck() {
