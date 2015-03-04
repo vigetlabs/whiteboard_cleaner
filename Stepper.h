@@ -20,17 +20,23 @@ class Stepper
     void startCalibration();
     bool isCalibrating();
     void calibrate();
-    void move(int newPosition);
+    void setTarget(float newTarget);
+    void update();
+
   private:
     int _dirPin;
     int _stepPin;
     int _buttonPin;
 
-    int  _buttonState;
-    int  _position;
-    bool _calibrating;
+    int   _buttonState;
+    bool  _calibrating;
+    float _position;
+    float _targetPosition;
+    float _delta;
+    float _positionStep;
 
-    void _movement(int steps);
+    void _moveTo(float newPosition);
+    void _moveSteps(float steps);
 };
 
 #endif

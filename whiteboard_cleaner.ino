@@ -1,12 +1,12 @@
 #include "IRremote.h"
 #include "Stepper.h"
 
-IRsend irsend(D5);
+IRsend irsend(D6);
 
 Stepper stepper1(D0, D1, A4);
 Stepper stepper2(D2, D3, A3);
 
-int ledPin = D7;
+int ledPin = D5;
 
 void setup()
 {
@@ -15,31 +15,25 @@ void setup()
   Spark.function("moveTo1", moveTo1);
   Spark.function("moveTo2", moveTo2);
   Spark.function("calibrate", calibrate);
-  Spark.function("lightUp", lightUp);
 }
 
-void loop()
-{
-  if (stepper1.isCalibrating() || stepper2.isCalibrating()) {
-    digitalWrite(ledPin, HIGH);
+void loop() {
+  calibrationCheck();
 
-    if (stepper1.isCalibrating()) { stepper1.calibrate(); }
-    if (stepper2.isCalibrating()) { stepper2.calibrate(); }
-  } else {
-    digitalWrite(ledPin, LOW);
-  }
+  stepper1.update();
+  stepper2.update();
 }
 
 int moveTo1(String value) {
   float newPosition = _readInput(value);
-  stepper1.move(newPosition);
+  stepper1.setTarget(newPosition);
 
   return newPosition;
 }
 
 int moveTo2(String value) {
   float newPosition = _readInput(value);
-  stepper2.move(newPosition);
+  stepper2.setTarget(newPosition);
 
   return newPosition;
 }
@@ -61,12 +55,15 @@ float _readInput(String value) {
   return atof(valueChar);
 }
 
-int lightUp(String _value) {
-  digitalWrite(ledPin, HIGH);
-  delay(1000);
-  digitalWrite(ledPin, LOW);
+void calibrationCheck() {
+  if (stepper1.isCalibrating() || stepper2.isCalibrating()) {
+    digitalWrite(ledPin, HIGH);
 
-  return 1;
+    if (stepper1.isCalibrating()) { stepper1.calibrate(); }
+    if (stepper2.isCalibrating()) { stepper2.calibrate(); }
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
 }
 
 // int irSend(String value) {
