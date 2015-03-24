@@ -17,8 +17,6 @@ class Stepper
       int stepPin,
       int buttonPin);
 
-    void startCalibration();
-    bool isCalibrating();
     void calibrate();
     void setTarget(float newTarget);
     void update();
@@ -29,7 +27,6 @@ class Stepper
     int _buttonPin;
 
     int   _buttonState;
-    bool  _calibrating;
     float _position;
     float _targetPosition;
     float _buffer;

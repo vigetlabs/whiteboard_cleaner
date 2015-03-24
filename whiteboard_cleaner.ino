@@ -19,8 +19,6 @@ void setup()
 }
 
 void loop() {
-  calibrationCheck();
-
   stepper1.update();
   stepper2.update();
 }
@@ -59,23 +57,12 @@ int moveTo2(String value) {
 
 int calibrate(String input) {
   if (input == "1") {
-    stepper1.startCalibration();
+    stepper1.calibrate();
   } else if (input == "2") {
-    stepper2.startCalibration();
+    stepper2.calibrate();
   }
 
   return 1;
-}
-
-void calibrationCheck() {
-  if (stepper1.isCalibrating() || stepper2.isCalibrating()) {
-    digitalWrite(ledPin, HIGH);
-
-    if (stepper1.isCalibrating()) { stepper1.calibrate(); }
-    if (stepper2.isCalibrating()) { stepper2.calibrate(); }
-  } else {
-    digitalWrite(ledPin, LOW);
-  }
 }
 
 // int irSend(String value) {

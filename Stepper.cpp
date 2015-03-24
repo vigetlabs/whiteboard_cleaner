@@ -18,8 +18,7 @@ Stepper::Stepper(
   _buttonState    = 0;
   _position       = 0;
   _targetPosition = 0;
-  _calibrating    = false;
-  _buffer          = 0.005;
+  _buffer         = 0.005;
   _positionStep   = 0.0075;
 
   pinMode(_dirPin,    OUTPUT);
@@ -27,25 +26,8 @@ Stepper::Stepper(
   pinMode(_buttonPin, INPUT);
 }
 
-void Stepper::startCalibration() {
-  _calibrating = true;
-}
-
-bool Stepper::isCalibrating() {
-  return _calibrating;
-}
-
 void Stepper::calibrate() {
-  _buttonState = digitalRead(_buttonPin);
-
-  digitalWrite(_dirPin, LOW);
-  _moveSteps(80);
-
-  if (_buttonState == HIGH) {
-    _calibrating    = false;
-    _position       = 0;
-    _targetPosition = 0;
-  }
+  _position = 0;
 }
 
 void Stepper::setTarget(float newTarget) {
@@ -77,6 +59,6 @@ void Stepper::_moveSteps(float steps) {
   for (int i = 0; i < steps; i++) {
     digitalWrite(_stepPin, LOW);
     digitalWrite(_stepPin, HIGH);
-    delayMicroseconds(500);
+    delayMicroseconds(100);
   }
 }
